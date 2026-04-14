@@ -31,9 +31,7 @@ const MyCampaigns = () => {
 
   useEffect(() => { fetchCampaigns(); }, []);
 
-  const handleStatusChange = async (e, campaignId, newStatus) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleStatusChange = async (campaignId, newStatus) => {
     try {
       await api.patch(`/campaigns/${campaignId}/status`, { status: newStatus });
       toast.success(`Campaign ${newStatus}`);
@@ -95,34 +93,33 @@ const MyCampaigns = () => {
                       <p className="text-sm text-slate-600 mb-3 line-clamp-2">{campaign.description}</p>
                     </Link>
 
-                    <DropdownMenu>
+                    <DropdownMenu modal={false}>
                       <DropdownMenuTrigger asChild>
                         <button
                           className={`px-3 py-1 rounded-full text-xs font-medium ml-2 flex-shrink-0 cursor-pointer ${cfg.bg} ${cfg.text} hover:opacity-80 transition-opacity`}
                           data-testid={`status-btn-${campaign.campaign_id}`}
-                          onClick={(e) => e.preventDefault()}
                         >
                           {cfg.label}
                         </button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
+                      <DropdownMenuContent align="end" className="z-50">
                         {campaign.status !== 'active' && (
-                          <DropdownMenuItem onClick={(e) => handleStatusChange(e, campaign.campaign_id, 'active')} data-testid={`activate-${campaign.campaign_id}`}>
+                          <DropdownMenuItem onSelect={() => handleStatusChange(campaign.campaign_id, 'active')} data-testid={`activate-${campaign.campaign_id}`}>
                             <Play className="w-4 h-4 mr-2 text-green-600" strokeWidth={1.5} /> Reactivate
                           </DropdownMenuItem>
                         )}
                         {campaign.status === 'active' && (
-                          <DropdownMenuItem onClick={(e) => handleStatusChange(e, campaign.campaign_id, 'paused')} data-testid={`pause-${campaign.campaign_id}`}>
+                          <DropdownMenuItem onSelect={() => handleStatusChange(campaign.campaign_id, 'paused')} data-testid={`pause-${campaign.campaign_id}`}>
                             <Pause className="w-4 h-4 mr-2 text-amber-600" strokeWidth={1.5} /> Pause
                           </DropdownMenuItem>
                         )}
                         {campaign.status !== 'closed' && (
-                          <DropdownMenuItem onClick={(e) => handleStatusChange(e, campaign.campaign_id, 'closed')} data-testid={`close-${campaign.campaign_id}`}>
+                          <DropdownMenuItem onSelect={() => handleStatusChange(campaign.campaign_id, 'closed')} data-testid={`close-${campaign.campaign_id}`}>
                             <XCircle className="w-4 h-4 mr-2 text-red-600" strokeWidth={1.5} /> Close
                           </DropdownMenuItem>
                         )}
                         {campaign.status !== 'archived' && (
-                          <DropdownMenuItem onClick={(e) => handleStatusChange(e, campaign.campaign_id, 'archived')} data-testid={`archive-${campaign.campaign_id}`}>
+                          <DropdownMenuItem onSelect={() => handleStatusChange(campaign.campaign_id, 'archived')} data-testid={`archive-${campaign.campaign_id}`}>
                             <Archive className="w-4 h-4 mr-2 text-slate-600" strokeWidth={1.5} /> Archive
                           </DropdownMenuItem>
                         )}

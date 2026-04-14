@@ -83,11 +83,11 @@ const Header = () => {
               {/* Mobile hamburger */}
               <Sheet open={open} onOpenChange={setOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="md:hidden rounded-full" data-testid="mobile-menu-btn">
+                  <Button variant="ghost" size="icon" className="md:hidden rounded-full relative z-50" data-testid="mobile-menu-btn">
                     <Menu className="w-5 h-5" strokeWidth={1.5} />
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-72 p-0">
+                <SheetContent side="right" className="w-72 p-0 z-[60]">
                   <div className="p-6 border-b border-slate-200">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-gradient-to-br from-indigo-950 to-violet-600 rounded-xl flex items-center justify-center">
