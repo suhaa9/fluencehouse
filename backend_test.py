@@ -231,6 +231,79 @@ class FluenceHouseAPITester:
 
         return True
 
+    def test_campaign_status_management(self):
+        """Test campaign status management endpoints"""
+        print("\n🔄 Testing Campaign Status Management...")
+        
+        if not self.brand_user or not self.test_campaign_id:
+            print("❌ Skipping campaign status tests - missing required data")
+            return False
+
+        # Login as brand first
+        try:
+            response = self.session.post(f"{self.base_url}/auth/login", json={
+                "email": self.brand_user["email"],
+                "password": "TestPass123!"
+            })
+            if response.status_code != 200:
+                self.log_test("Brand Login for Status Management", False, f"- Status: {response.status_code}")
+                return False
+        except Exception as e:
+            self.log_test("Brand Login for Status Management", False, f"- Error: {str(e)}")
+            return False
+
+        # Test pause campaign
+        try:
+            response = self.session.patch(f"{self.base_url}/campaigns/{self.test_campaign_id}/status", json={
+                "status": "paused"
+            })
+            success = response.status_code == 200
+            self.log_test("Pause Campaign", success, f"- Status: {response.status_code}")
+        except Exception as e:
+            self.log_test("Pause Campaign", False, f"- Error: {str(e)}")
+
+        # Test reactivate campaign
+        try:
+            response = self.session.patch(f"{self.base_url}/campaigns/{self.test_campaign_id}/status", json={
+                "status": "active"
+            })
+            success = response.status_code == 200
+            self.log_test("Reactivate Campaign", success, f"- Status: {response.status_code}")
+        except Exception as e:
+            self.log_test("Reactivate Campaign", False, f"- Error: {str(e)}")
+
+        # Test close campaign
+        try:
+            response = self.session.patch(f"{self.base_url}/campaigns/{self.test_campaign_id}/status", json={
+                "status": "closed"
+            })
+            success = response.status_code == 200
+            self.log_test("Close Campaign", success, f"- Status: {response.status_code}")
+        except Exception as e:
+            self.log_test("Close Campaign", False, f"- Error: {str(e)}")
+
+        # Test archive campaign
+        try:
+            response = self.session.patch(f"{self.base_url}/campaigns/{self.test_campaign_id}/status", json={
+                "status": "archived"
+            })
+            success = response.status_code == 200
+            self.log_test("Archive Campaign", success, f"- Status: {response.status_code}")
+        except Exception as e:
+            self.log_test("Archive Campaign", False, f"- Error: {str(e)}")
+
+        # Test invalid status
+        try:
+            response = self.session.patch(f"{self.base_url}/campaigns/{self.test_campaign_id}/status", json={
+                "status": "invalid_status"
+            })
+            success = response.status_code == 400  # Should return 400 for invalid status
+            self.log_test("Invalid Status Rejection", success, f"- Status: {response.status_code}")
+        except Exception as e:
+            self.log_test("Invalid Status Rejection", False, f"- Error: {str(e)}")
+
+        return True
+
     def test_application_endpoints(self):
         """Test application-related endpoints"""
         print("\n📝 Testing Application Endpoints...")
@@ -423,6 +496,7 @@ class FluenceHouseAPITester:
         self.test_auth_endpoints()
         self.test_influencer_endpoints()
         self.test_campaign_endpoints()
+        self.test_campaign_status_management()
         self.test_application_endpoints()
         self.test_application_management()
         self.test_payout_endpoints()

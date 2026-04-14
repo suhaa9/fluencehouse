@@ -138,6 +138,9 @@ class PayoutCreate(BaseModel):
     application_id: str
     amount: float
 
+class CampaignStatusUpdate(BaseModel):
+    status: str  # "active", "paused", "closed", "archived"
+
 # Create the main app
 app = FastAPI()
 
@@ -420,6 +423,28 @@ async def get_campaign(campaign_id: str):
     if not campaign:
         raise HTTPException(status_code=404, detail="Campaign not found")
     return campaign
+
+@api_router.patch("/campaigns/{campaign_id}/status")
+async def update_campaign_status(campaign_id: str, req: CampaignStatusUpdate, current_user: dict = Depends(get_current_user)):
+    if current_user["role"] != "brand":
+        raise HTTPException(status_code=403, detail="Only brands can update campaigns")
+
+    valid_statuses = ["active", "paused", "closed", "archived"]
+    if req.status not in valid_statuses:
+        raise HTTPException(status_code=400, detail=f"Status must be one of: {', '.join(valid_statuses)}")
+
+    campaign = await db.campaigns.find_one({"campaign_id": campaign_id}, {"_id": 0})
+    if not campaign:
+        raise HTTPException(status_code=404, detail="Campaign not found")
+    if campaign["brand_user_id"] != current_user["user_id"]:
+        raise HTTPException(status_code=403, detail="Not authorized")
+
+    await db.campaigns.update_one(
+        {"campaign_id": campaign_id},
+        {"$set": {"status": req.status}}
+    )
+    updated = await db.campaigns.find_one({"campaign_id": campaign_id}, {"_id": 0})
+    return updated
 
 # Application Endpoints
 @api_router.post("/applications")

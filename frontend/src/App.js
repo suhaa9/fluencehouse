@@ -16,6 +16,8 @@ import MyCampaigns from '@/pages/MyCampaigns';
 import CampaignApplications from '@/pages/CampaignApplications';
 import Earnings from '@/pages/Earnings';
 import Payouts from '@/pages/Payouts';
+import InfluencerDiscovery from '@/pages/InfluencerDiscovery';
+import InfluencerDetail from '@/pages/InfluencerDetail';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
 function AppRouter() {
@@ -40,6 +42,8 @@ function AppRouter() {
       <Route path="/my-campaigns/:id/applications" element={<ProtectedRoute><CampaignApplications /></ProtectedRoute>} />
       <Route path="/earnings" element={<ProtectedRoute><Earnings /></ProtectedRoute>} />
       <Route path="/payouts" element={<ProtectedRoute><Payouts /></ProtectedRoute>} />
+      <Route path="/influencers" element={<ProtectedRoute><InfluencerDiscovery /></ProtectedRoute>} />
+      <Route path="/influencers/:id" element={<ProtectedRoute><InfluencerDetail /></ProtectedRoute>} />
     </Routes>
   );
 }
