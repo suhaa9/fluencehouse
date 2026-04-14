@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { api } from '@/context/AuthContext';
 import Header from '@/components/Header';
 import { Search, Briefcase, Calendar, DollarSign } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const CampaignBrowse = () => {
   const [campaigns, setCampaigns] = useState([]);
@@ -16,7 +14,7 @@ const CampaignBrowse = () => {
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const { data } = await axios.get(`${API}/campaigns`, { withCredentials: true });
+        const { data } = await api.get('/campaigns');
         setCampaigns(data);
       } catch (error) {
         console.error('Error fetching campaigns:', error);

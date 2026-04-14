@@ -93,6 +93,22 @@ class FluenceHouseAPITester:
         except Exception as e:
             self.log_test("Brand Registration", False, f"- Error: {str(e)}")
 
+        # Test token refresh endpoint
+        try:
+            response = self.session.post(f"{self.base_url}/auth/refresh")
+            success = response.status_code == 200
+            self.log_test("Token Refresh", success, f"- Status: {response.status_code}")
+        except Exception as e:
+            self.log_test("Token Refresh", False, f"- Error: {str(e)}")
+
+        # Test logout
+        try:
+            response = self.session.post(f"{self.base_url}/auth/logout")
+            success = response.status_code == 200
+            self.log_test("Logout", success, f"- Status: {response.status_code}")
+        except Exception as e:
+            self.log_test("Logout", False, f"- Error: {str(e)}")
+
         return True
 
     def test_influencer_endpoints(self):

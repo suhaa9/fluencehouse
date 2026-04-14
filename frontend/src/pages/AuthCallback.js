@@ -1,10 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
-import axios from 'axios';
+import { useAuth, api } from '@/context/AuthContext';
 import { toast } from 'sonner';
-
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const AuthCallback = () => {
   const navigate = useNavigate();
@@ -28,11 +25,7 @@ const AuthCallback = () => {
       }
 
       try {
-        const { data } = await axios.post(
-          `${API}/auth/google-session`,
-          { session_id: sessionId },
-          { withCredentials: true }
-        );
+        const { data } = await api.post('/auth/google-session', { session_id: sessionId });
         
         setUser(data);
         toast.success('Welcome to Fluence House!');

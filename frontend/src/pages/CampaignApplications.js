@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { api } from '@/context/AuthContext';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { ArrowLeft, User, CheckCircle, XCircle } from 'lucide-react';
-
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const CampaignApplications = () => {
   const { id } = useParams();
@@ -18,8 +16,8 @@ const CampaignApplications = () => {
   const fetchData = async () => {
     try {
       const [campaignRes, appsRes] = await Promise.all([
-        axios.get(`${API}/campaigns/${id}`, { withCredentials: true }),
-        axios.get(`${API}/campaigns/${id}/applications`, { withCredentials: true })
+        api.get(`/campaigns/${id}`),
+        api.get(`/campaigns/${id}/applications`)
       ]);
       setCampaign(campaignRes.data);
       setApplications(appsRes.data);
@@ -37,7 +35,7 @@ const CampaignApplications = () => {
 
   const handleAction = async (applicationId, action) => {
     try {
-      await axios.patch(`${API}/applications/${applicationId}`, { action }, { withCredentials: true });
+      await api.patch(`/applications/${applicationId}`, { action });
       toast.success(`Application ${action}d successfully!`);
       fetchData();
     } catch (error) {

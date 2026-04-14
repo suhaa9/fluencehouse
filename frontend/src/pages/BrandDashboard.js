@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import axios from 'axios';
+import { api } from '@/context/AuthContext';
 import Header from '@/components/Header';
 import { Briefcase, FileText, DollarSign, TrendingUp, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,8 +10,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
-
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const BrandDashboard = () => {
   const { user } = useAuth();
@@ -31,8 +29,8 @@ const BrandDashboard = () => {
   const fetchData = async () => {
     try {
       const [statsRes, campaignsRes] = await Promise.all([
-        axios.get(`${API}/dashboard/stats`, { withCredentials: true }),
-        axios.get(`${API}/campaigns/my`, { withCredentials: true })
+        api.get('/dashboard/stats'),
+        api.get('/campaigns/my')
       ]);
       setStats(statsRes.data);
       setCampaigns(campaignsRes.data.slice(0, 5));
@@ -50,10 +48,10 @@ const BrandDashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API}/campaigns`, {
+      await api.post('/campaigns', {
         ...formData,
         budget: parseFloat(formData.budget)
-      }, { withCredentials: true });
+      });
       toast.success('Campaign created successfully!');
       setDialogOpen(false);
       setFormData({ title: '', description: '', budget: '', requirements: '', niche: '', deadline: '' });

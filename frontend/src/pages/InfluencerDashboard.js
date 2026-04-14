@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import axios from 'axios';
+import { api } from '@/context/AuthContext';
 import Header from '@/components/Header';
 import { Briefcase, FileText, DollarSign, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const InfluencerDashboard = () => {
   const { user } = useAuth();
@@ -18,8 +16,8 @@ const InfluencerDashboard = () => {
     const fetchData = async () => {
       try {
         const [statsRes, appsRes] = await Promise.all([
-          axios.get(`${API}/dashboard/stats`, { withCredentials: true }),
-          axios.get(`${API}/applications/my`, { withCredentials: true })
+          api.get('/dashboard/stats'),
+          api.get('/applications/my')
         ]);
         setStats(statsRes.data);
         setApplications(appsRes.data.slice(0, 5));

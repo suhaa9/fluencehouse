@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { api } from '@/context/AuthContext';
 import Header from '@/components/Header';
 import { DollarSign, TrendingUp, Clock, CheckCircle } from 'lucide-react';
-
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const Earnings = () => {
   const [payouts, setPayouts] = useState([]);
@@ -13,7 +11,7 @@ const Earnings = () => {
   useEffect(() => {
     const fetchPayouts = async () => {
       try {
-        const { data } = await axios.get(`${API}/payouts/my`, { withCredentials: true });
+        const { data } = await api.get('/payouts/my');
         setPayouts(data);
         
         const total = data.reduce((sum, p) => sum + p.amount, 0);

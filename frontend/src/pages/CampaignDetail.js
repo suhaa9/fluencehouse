@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { api } from '@/context/AuthContext';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { Calendar, DollarSign, Briefcase, ArrowLeft } from 'lucide-react';
-
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const CampaignDetail = () => {
   const { id } = useParams();
@@ -22,7 +20,7 @@ const CampaignDetail = () => {
   useEffect(() => {
     const fetchCampaign = async () => {
       try {
-        const { data } = await axios.get(`${API}/campaigns/${id}`, { withCredentials: true });
+        const { data } = await api.get(`/campaigns/${id}`);
         setCampaign(data);
       } catch (error) {
         console.error('Error fetching campaign:', error);
@@ -39,10 +37,10 @@ const CampaignDetail = () => {
     e.preventDefault();
     setApplying(true);
     try {
-      await axios.post(`${API}/applications`, {
+      await api.post('/applications', {
         campaign_id: id,
         proposal
-      }, { withCredentials: true });
+      });
       toast.success('Application submitted successfully!');
       navigate('/my-applications');
     } catch (error) {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import axios from 'axios';
+import { api } from '@/context/AuthContext';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,8 +8,6 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { User, Instagram, Youtube, Twitter } from 'lucide-react';
-
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const InfluencerProfile = () => {
   const { user } = useAuth();
@@ -28,7 +26,7 @@ const InfluencerProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const { data } = await axios.get(`${API}/influencer/profile`, { withCredentials: true });
+        const { data } = await api.get('/influencer/profile');
         setProfile({
           bio: data.bio || '',
           followers: data.followers || 0,
@@ -51,7 +49,7 @@ const InfluencerProfile = () => {
     e.preventDefault();
     setSaving(true);
     try {
-      await axios.put(`${API}/influencer/profile`, profile, { withCredentials: true });
+      await api.put('/influencer/profile', profile);
       toast.success('Profile updated successfully!');
     } catch (error) {
       toast.error('Failed to update profile');

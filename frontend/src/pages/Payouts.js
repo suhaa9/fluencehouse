@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { api } from '@/context/AuthContext';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -8,8 +8,6 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { DollarSign, Plus } from 'lucide-react';
-
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const Payouts = () => {
   const [payouts, setPayouts] = useState([]);
@@ -22,14 +20,14 @@ const Payouts = () => {
   const fetchData = async () => {
     try {
       const [payoutsRes, campaignsRes] = await Promise.all([
-        axios.get(`${API}/payouts/my`, { withCredentials: true }),
-        axios.get(`${API}/campaigns/my`, { withCredentials: true })
+        api.get('/payouts/my'),
+        api.get('/campaigns/my')
       ]);
       setPayouts(payoutsRes.data);
       
       const allApps = [];
       for (const campaign of campaignsRes.data) {
-        const appsRes = await axios.get(`${API}/campaigns/${campaign.campaign_id}/applications`, { withCredentials: true });
+        const appsRes = await api.get(`/campaigns/${campaign.campaign_id}/applications`);
         const approvedApps = appsRes.data.filter(app => app.status === 'approved');
         allApps.push(...approvedApps.map(app => ({ ...app, campaign })));
       }
@@ -48,10 +46,10 @@ const Payouts = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API}/payouts`, {
+      await api.post('/payouts', {
         application_id: selectedApp,
         amount: parseFloat(amount)
-      }, { withCredentials: true });
+      });
       toast.success('Payout created successfully!');
       setDialogOpen(false);
       setSelectedApp('');

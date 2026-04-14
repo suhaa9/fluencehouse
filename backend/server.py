@@ -218,6 +218,37 @@ async def logout(response: Response):
     response.delete_cookie("session_token")
     return {"message": "Logged out"}
 
+@api_router.post("/auth/refresh")
+async def refresh_token(request: Request, response: Response):
+    token = request.cookies.get("refresh_token")
+    if not token:
+        raise HTTPException(status_code=401, detail="No refresh token")
+
+    try:
+        payload = jwt.decode(token, get_jwt_secret(), algorithms=[JWT_ALGORITHM])
+        if payload.get("type") != "refresh":
+            raise HTTPException(status_code=401, detail="Invalid token type")
+
+        user_id = payload["sub"]
+        user = await db.users.find_one({"user_id": user_id}, {"_id": 0})
+        if not user:
+            raise HTTPException(status_code=401, detail="User not found")
+
+        # Issue a fresh access token
+        access_token = create_access_token(user_id, user["email"])
+        response.set_cookie(
+            key="access_token", value=access_token,
+            httponly=True, secure=False, samesite="lax",
+            max_age=900, path="/"
+        )
+
+        user.pop("password_hash", None)
+        return user
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Refresh token expired")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Invalid refresh token")
+
 @api_router.post("/auth/google-session")
 async def google_session(req: GoogleAuthSession, response: Response):
     import httpx

@@ -1,6 +1,6 @@
 import '@/App.css';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { AuthProvider } from '@/context/AuthContext';
+import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { Toaster } from '@/components/ui/sonner';
 import LandingPage from '@/pages/LandingPage';
 import LoginPage from '@/pages/LoginPage';
@@ -45,7 +45,7 @@ function AppRouter() {
 }
 
 function DashboardRouter() {
-  const { user } = require('@/context/AuthContext').useAuth();
+  const { user } = useAuth();
   
   if (!user) return null;
   

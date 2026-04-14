@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { api } from '@/context/AuthContext';
 import Header from '@/components/Header';
 import { FileText, Briefcase } from 'lucide-react';
-import { Link } from 'react-router-dom';
-
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const MyApplications = () => {
   const [applications, setApplications] = useState([]);
@@ -13,7 +11,7 @@ const MyApplications = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const { data } = await axios.get(`${API}/applications/my`, { withCredentials: true });
+        const { data } = await api.get('/applications/my');
         setApplications(data);
       } catch (error) {
         console.error('Error fetching applications:', error);
