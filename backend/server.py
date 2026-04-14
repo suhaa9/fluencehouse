@@ -184,8 +184,8 @@ async def register(req: RegisterRequest, response: Response):
     access_token = create_access_token(user_id, email)
     refresh_token = create_refresh_token(user_id)
     
-    response.set_cookie(key="access_token", value=access_token, httponly=True, secure=False, samesite="lax", max_age=900, path="/")
-    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True, secure=False, samesite="lax", max_age=604800, path="/")
+    response.set_cookie(key="access_token", value=access_token, httponly=True, secure=True, samesite="none", max_age=900, path="/")
+    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True, secure=True, samesite="none", max_age=604800, path="/")
     
     user_doc.pop("password_hash")
     user_doc.pop("_id", None)
@@ -201,8 +201,8 @@ async def login(req: LoginRequest, response: Response):
     access_token = create_access_token(user["user_id"], email)
     refresh_token = create_refresh_token(user["user_id"])
     
-    response.set_cookie(key="access_token", value=access_token, httponly=True, secure=False, samesite="lax", max_age=900, path="/")
-    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True, secure=False, samesite="lax", max_age=604800, path="/")
+    response.set_cookie(key="access_token", value=access_token, httponly=True, secure=True, samesite="none", max_age=900, path="/")
+    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True, secure=True, samesite="none", max_age=604800, path="/")
     
     user.pop("password_hash")
     return user
@@ -238,7 +238,7 @@ async def refresh_token(request: Request, response: Response):
         access_token = create_access_token(user_id, user["email"])
         response.set_cookie(
             key="access_token", value=access_token,
-            httponly=True, secure=False, samesite="lax",
+            httponly=True, secure=True, samesite="none",
             max_age=900, path="/"
         )
 
@@ -620,7 +620,10 @@ app.include_router(api_router)
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
-    allow_origins=[os.environ.get("FRONTEND_URL", "http://localhost:3000")],
+    allow_origins=[
+        os.environ.get("FRONTEND_URL", "http://localhost:3000"),
+        "http://localhost:3000",
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )
