@@ -1,0 +1,106 @@
+{
+  "project_name": "Fluence House",
+  "theme": "light",
+  "archetype": "4 (Swiss & High-Contrast) / Hybrid 5 (Jewel & Luxury)",
+  "design_philosophy": "Fusion over imitation. Premium, clean, high-contrast B2B and B2C marketplace. Content is king. Zoom in on influencer metrics. Use negative space aggressively to create an editorial, high-end feel rather than a typical cluttered SaaS.",
+  "colors": {
+    "background": "#f8fafc",
+    "surface": "#ffffff",
+    "primary": "#1e1b4b",
+    "primary_hover": "#312e81",
+    "accent": "#7c3aed",
+    "accent_hover": "#6d28d9",
+    "accent_soft": "#f3e8ff",
+    "text_main": "#0f172a",
+    "text_muted": "#475569",
+    "border": "#e2e8f0",
+    "border_focus": "#7c3aed",
+    "success": "#10b981",
+    "warning": "#f59e0b",
+    "error": "#ef4444"
+  },
+  "typography": {
+    "fonts": {
+      "heading": "Cabinet Grotesk, sans-serif",
+      "body": "Satoshi, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "scale": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-tighter font-black text-slate-900",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl tracking-tight font-bold text-slate-900",
+      "h3": "text-xl sm:text-2xl tracking-tight font-semibold text-slate-900",
+      "h4": "text-lg sm:text-xl font-medium text-slate-900",
+      "body": "text-base text-slate-600 leading-relaxed",
+      "small": "text-sm text-slate-500",
+      "overline": "text-xs font-bold uppercase tracking-[0.2em] text-violet-600"
+    }
+  },
+  "spacing_and_layout": {
+    "grid_system": "Use The 'Bento' Grid Protocol for the Influencer profile. Use The 'Control Room' Grid for the Brand Campaign dashboard.",
+    "spacing_scale": "p-1, p-2, p-4, p-6, p-8, p-12, p-16. Use generous padding (p-8) for dashboard cards.",
+    "surface_styles": {
+      "header": "Crystal Glass: backdrop-blur-xl bg-white/70 border-b border-slate-200/50",
+      "cards_influencer": "Neumorphic/Soft: bg-white rounded-2xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow",
+      "cards_brand": "Grid Borders: Sharp corners or minimal radius (rounded-md), bg-white border border-slate-200 p-6"
+    }
+  },
+  "components": {
+    "strategy": "Use pure HTML/Tailwind for marketing layouts. Use Shadcn components for interactive logic (Forms, Modals, Tables, Tabs). Heavily customize Shadcn to remove generic Vercel look.",
+    "buttons": {
+      "primary": "bg-indigo-950 text-white hover:bg-indigo-900 rounded-full px-8 py-3 font-medium transition-all shadow-sm hover:shadow-md",
+      "secondary": "bg-violet-100 text-violet-700 hover:bg-violet-200 rounded-full px-8 py-3 font-medium transition-all",
+      "outline": "border-2 border-slate-200 bg-transparent text-slate-900 hover:border-slate-300 rounded-full px-8 py-3 font-medium transition-all"
+    },
+    "inputs": "Shadcn Input/Select with h-12, rounded-lg, border-slate-200 focus:ring-2 focus:ring-violet-500 focus:border-transparent",
+    "tables": "Shadcn Table with clean minimal borders, text-sm, text-slate-600. Headers text-xs uppercase tracking-wider text-slate-500.",
+    "badges": "rounded-full px-3 py-1 text-xs font-medium"
+  },
+  "animations": {
+    "hover": "transition-all duration-200 ease-in-out",
+    "list_stagger": "Framer motion: initial opacity-0 y-4, animate opacity-1 y-0, stagger 0.1s",
+    "micro_interactions": "Active tabs slide indicator using framer-motion layoutId. Buttons slight scale down on tap (active:scale-95)."
+  },
+  "icons": {
+    "library": "lucide-react",
+    "usage": "Use crisp, consistent stroke widths (strokeWidth={1.5})."
+  },
+  "image_urls": [
+    {
+      "url": "https://images.unsplash.com/photo-1552109870-1da1bada6be0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwxfHxmYXNoaW9uJTIwaW5mbHVlbmNlciUyMHBvcnRyYWl0fGVufDB8fHx8MTc3NjE1NTkwNXww&ixlib=rb-4.1.0&q=85",
+      "category": "influencer_avatar_1",
+      "description": "Fashion influencer portrait, used for influencer profile mockup"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1648692792913-9510b0b39cea?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHw0fHxmYXNoaW9uJTIwaW5mbHVlbmNlciUyMHBvcnRyYWl0fGVufDB8fHx8MTc3NjE1NTkwNXww&ixlib=rb-4.1.0&q=85",
+      "category": "influencer_avatar_2",
+      "description": "Male lifestyle influencer portrait"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1737574994780-e31827afaed7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MjJ8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjBvZmZpY2UlMjBsaWZlc3R5bGV8ZW58MHx8fHwxNzc2MTU1OTA1fDA&ixlib=rb-4.1.0&q=85",
+      "category": "brand_avatar",
+      "description": "Brand manager / modern office lifestyle portrait"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1516798705208-066b05ced1cd?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MjJ8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBvZmZpY2UlMjBsaWZlc3R5bGV8ZW58MHx8fHwxNzc2MTU1OTA1fDA&ixlib=rb-4.1.0&q=85",
+      "category": "campaign_cover",
+      "description": "Modern office table, used for campaign cover image"
+    }
+  ],
+  "accessibility": {
+    "contrast": "Ensure all text meets APCA standards. Text over images must use gradient overlays (e.g., bg-gradient-to-t from-black/60 to-transparent).",
+    "focus": "focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:outline-none",
+    "motion": "Respect prefers-reduced-motion."
+  },
+  "instructions_to_main_agent": [
+    "Load Cabinet Grotesk and Satoshi via fontsource or Google Fonts (use similar alternatives like Outfit/Manrope if unavailable, but prefer custom).",
+    "Build the dashboard layouts. The Brand dashboard should feel like a 'Control Room' (dense, pure white/indigo, data-focused grids). The Influencer dashboard should feel like a 'Bento Grid' portfolio (soft edges, violet accents, visual heavy).",
+    "Use pure HTML/Tailwind for the landing page hero section. Add subtle noise/grain texture overlay for a premium touch.",
+    "Implement Dual Auth logic using JWT/OAuth conceptually (mocked for MVP frontend).",
+    "Ensure the header uses glassmorphism (Crystal Glass rule: backdrop-blur-xl bg-white/70 with 1px border-b).",
+    "Add 'data-testid' to ALL interactive elements (buttons, links, inputs, tabs).",
+    "Do NOT use 'Inter', 'Roboto', 'Open Sans', 'Lato' for headings.",
+    "Use Lucide-react for all icons, keeping strokeWidth consistent at 1.5.",
+    "DO NOT use placeholder URLs. Use the exact image_urls provided in this JSON.",
+    "Ensure all buttons have explicit hover states (e.g., hover:bg-indigo-900)."
+  ]
+}
